@@ -1,0 +1,158 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.chat-container {
+    width: 100%;
+    max-width: 600px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.chat-header {
+    background-color: #e6f0fa;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.chat-header .avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.chat-header .header-text h1 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.chat-header .header-text p {
+    margin: 5px 0 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.chat-box {
+    padding: 15px;
+    height: 400px;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+}
+
+.message {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.bot-message .avatar img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.message p {
+    margin: 0;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 70%;
+    word-wrap: break-word;
+}
+
+.user-message {
+    justify-content: flex-end;
+}
+
+.user-message p {
+    background-color: #007bff;
+    color: white;
+    border-top-right-radius: 0;
+}
+
+.bot-message {
+    justify-content: flex-start;
+}
+
+.bot-message p {
+    background-color: #e6f0fa;
+    color: #333;
+    border-top-left-radius: 0;
+}
+
+.input-area {
+    padding: 15px;
+    border-top: 1px solid #ddd;
+    background-color: white;
+}
+
+.input-area form {
+    display: flex;
+    align-items: center;
+}
+
+.input-area input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    outline: none;
+    font-size: 14px;
+}
+
+.input-area button {
+    padding: 10px 20px;
+    margin-left: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.input-area button:hover {
+    background-color: #0056b3;
+}
+.loading-dots {
+    animation: dots 1.5s infinite steps(4);
+}
+
+.loading-dots {
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+    position: relative;
+}
+
+.loading-dots::before {
+    content: "• • •";
+    font-size: 20px;
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}

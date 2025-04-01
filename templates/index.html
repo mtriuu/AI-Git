@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Toán Học</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="avatar">
+                <img src="https://chatbot.userlocal.jp/files/icon_robot.png" alt="Chatbot Avatar">
+            </div>
+            <div class="header-text">
+                <h1>Chatbot Toán Học</h1>
+                <p>Trợ lý Toán học thông minh, giúp bạn giải phương trình, tính đạo hàm, và hơn thế nữa! 😊</p>
+            </div>
+        </div>
+        <div class="chat-box" id="chatBox">
+            <!-- Lịch sử chat sẽ hiển thị ở đây -->
+        </div>
+        <div class="input-area">
+            <form id="chatForm" onsubmit="sendMessage(event)">
+                <input type="text" id="message" name="message" placeholder="Hỏi mình về Toán nhé..." required>
+                <button type="submit">Gửi</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        async function sendMessage(event) {
+            event.preventDefault();
+            const messageInput = document.getElementById('message');
+            const chatBox = document.getElementById('chatBox');
+            
+            // Hiển thị tin nhắn của người dùng
+            const userMessage = messageInput.value;
+            chatBox.innerHTML += `
+                <div class="message user-message">
+                    <p>${userMessage}</p>
+                </div>
+            `;
+            
+            // Thêm hiệu ứng loading (dấu 3 chấm)
+            const loadingMessage = document.createElement('div');
+            loadingMessage.className = 'message bot-message';
+            loadingMessage.innerHTML = `
+                <div class="avatar">
+                    <img src="https://chatbot.userlocal.jp/files/icon_robot.png" alt="Bot Avatar">
+                </div>
+                <p><span class="loading-dots"></span></p>
+            `;
+            chatBox.appendChild(loadingMessage);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        
+            try {
+                // Chờ 3 giây trước khi gửi yêu cầu
+                await new Promise(resolve => setTimeout(resolve, 3000));
+                
+                // Gửi yêu cầu đến server
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `message=${encodeURIComponent(userMessage)}`
+                });
+                
+                const botResponse = await response.text();
+                
+                // Xóa hiệu ứng loading
+                chatBox.removeChild(loadingMessage);
+                
+                // Hiển thị câu trả lời của bot
+                chatBox.innerHTML += `
+                    <div class="message bot-message">
+                        <div class="avatar">
+                            <img src="https://chatbot.userlocal.jp/files/icon_robot.png" alt="Bot Avatar">
+                        </div>
+                        <p>${botResponse}</p>
+                    </div>
+                `;
+            } catch (error) {
+                chatBox.removeChild(loadingMessage);
+                chatBox.innerHTML += `
+                    <div class="message bot-message">
+                        <div class="avatar">
+                            <img src="https://chatbot.userlocal.jp/files/icon_robot.png" alt="Bot Avatar">
+                        </div>
+                        <p>Có lỗi xảy ra: ${error.message}</p>
+                    </div>
+                `;
+            }
+            
+            // Cuộn xuống cuối chat
+            chatBox.scrollTop = chatBox.scrollHeight;
+            messageInput.value = '';
+        }
+    </script>
+</body>
+</html>
